@@ -1,0 +1,14 @@
+#!/bin/sh
+# Capture server state during a slowdown. Writes to /var/log/tciaf-snapshots/ and prints the file path.
+# Install: sudo install -m 755 ops/bin/tciaf-snapshot /usr/local/bin/tciaf-snapshot
+d=/var/log/tciaf-snapshots
+mkdir -p "$d"
+f="$d/$(date -u +%Y%m%dT%H%M%SZ).txt"
+{
+  date -u; uptime; free -m
+  echo "--- apache status (loopback vhost from ops/apache/tciaf-status.conf)"; curl -s -m 5 'http://127.0.0.1:8081/server-status?auto'
+  echo "--- apache workers by RSS"; ps -C apache2 -o pid,rss,etime,stat --sort=-rss | head -15
+  echo "--- established :443 connections by client IP"
+  ss -Htn state established '( sport = :443 )' | awk '{sub(/:[0-9]+$/, "", $4); print $4}' | sort | uniq -c | sort -rn | head
+} > "$f" 2>&1
+echo "$f"
