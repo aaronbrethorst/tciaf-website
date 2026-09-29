@@ -174,13 +174,7 @@ I added a few other configs to deflate, as the content-type returned from the ap
 
 ## Caching
 
-Cache static stuff for about a week (in seconds here), this requires `a2enmod headers` on ubuntu.
-
-```
-<filesMatch ".(ico|pdf|jpg|jpeg|png|svg|gif|js|css)$">
-   Header set Cache-Control "max-age=600000, public"
-</filesMatch>
-```
+Static files are cached for a week by [`ops/apache/tciaf-static-cache.conf`](ops/apache/tciaf-static-cache.conf), which requires `a2enmod headers` on ubuntu. See [`ops/README.md`](ops/README.md) for installing it and the other Apache snippets.
 
 ## PHP configs
 

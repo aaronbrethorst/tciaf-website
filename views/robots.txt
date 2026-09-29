@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /manage/
+Crawl-delay: 5
+
+# These are also refused by the server (ops/apache/tciaf-block-ua.conf).
+User-agent: SemrushBot
+User-agent: AhrefsBot
+User-agent: MJ12bot
+User-agent: dotbot
+User-agent: PetalBot
+Disallow: /
